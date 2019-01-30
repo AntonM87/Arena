@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        
+        form h3 {
+            margin-left: 5px;
+        }
+        
+        div[data-pasportForm] {
+            width: 450px;
+            border: 1px solid #090909;
+            padding: 5px;
+            margin: 10px;
+            border-radius: 5px;
+        }
+        
+        div[data-pasportForm] div {
+            padding: 5px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        
+        div[data-pasportForm] div label {}
+        
+        div[data-pasportForm] div input {
+            border-radius: 5px;
+            padding: 5px;
+        }
+        
+        form button {
+            padding: 5px;
+            margin: 10px 10px 0 10px;
+            border-radius: 5px;
+        }
+        
+        div[data-colorReplace] p {
+            font-size: 1.5rem;
+        }
+        
+        div[data-colorReplace] {
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        
+        div[data-colorReplace] button {
+            margin-top: 10px;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        
+        div[data-colorConverter] {
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+        
+        div[data-colorConverter] p {}
+        
+        div#color {
+            margin-top: 10px;
+            margin-left: 10px;
+            border: 1px solid #27872f;
+            width: 150px;
+            height: 75px;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <button>Добавить паспорт</button>
+        <div data-pasportForm>
+            <h3>Паспорт N1</h3>
+            <div>
+                <label>Серия</label>
+                <input maxlength="4" data-serial type="text" name="serial1">
+            </div>
+            <div>
+                <label>Номер</label>
+                <input maxlength="6" data-number type="text" name="number1">
+            </div>
+            <div>
+                <label>Код подразделения</label>
+                <input maxlength="6" data-subdivision type="text" name="subdivision1">
+            </div>
+            <div>
+                <label>Дата выдачи</label>
+                <input maxlength="8" data-getDate type="text" name="getDate1">
+            </div>
+        </div>
+    </form>
+
+    <div data-colorReplace>
+        <p>Я цвет #fff #21a74e #cac71c #1c62ca #999</p>
+        <button>Конвертировать цвета</button>
+    </div>
+
+    <div data-colorConverter>
+        <input type="text">
+        <p>Цвет rgb()</p>
+    </div>
+    <div id="color"></div>
+
+    <script>
+        var pasportFormCounter = 2;
+        document.querySelector('form > button').addEventListener('click', function (e) {
+            e.preventDefault();
+            var pasportForm = document.querySelector('div[data-pasportForm]');
+            var newPasportForm = pasportForm.cloneNode(true);
+            var h3 = newPasportForm.querySelector('h3');
+            var h3Text = h3.textContent;
+            var h3TextModified = h3Text.substr('Паспорт N', 9) + pasportFormCounter;
+            pasportFormCounter++;
+            h3.textContent = h3TextModified;
+
+            newPasportForm.querySelector('input[data-serial]').value = '';
+            newPasportForm.querySelector('input[data-number]').value = '';
+            newPasportForm.querySelector('input[data-subdivision]').value = '';
+            newPasportForm.querySelector('input[data-getDate]').value = '';
+
+            document.querySelector('form').appendChild(newPasportForm);
+        });
+        document.querySelector('form').addEventListener('keypress', function (e) {
+            var target = e.target;
+            if (target.hasAttribute('data-serial') ||
+                target.hasAttribute('data-number') ||
+                target.hasAttribute('data-subdivision') ||
+                target.hasAttribute('data-getDate')) {
+                if (e.which < 48 || e.which > 57) {
+                    e.preventDefault();
+                }
+            }
+        });
+        document.querySelector('form').addEventListener('input', function (e) {
+            if (e.target.hasAttribute('data-serial')) {
+                e.target.value = e.target.value.replace(/(\d{2})(\d{2})/, '$1 $2');
+            }
+            if (e.target.hasAttribute('data-subdivision')) {
+                e.target.value = e.target.value.replace(/(\d{3})(\d{3})/, '$1-$2');
+            }
+            if (e.target.hasAttribute('data-getDate')) {
+                e.target.value = e.target.value.replace(/(\d{2})(\d{2})(\d{4})/, '$1.$2.$3');
+            }
+        });
+        document.querySelector('div[data-colorReplace]').addEventListener('click', function (e) {
+
+            if (e.target.tagName = 'button') {
+                var p = this.querySelector('p');
+                var str = p.textContent;
+                console.log(str);
+
+                p.textContent = str.replace(/(#([a-zA-Z0-9]){6})|(#([a-zA-Z0-9]){3})/g, function (match) {
+                    var color = match.slice(1);
+                    if (color.length == 6) {
+                        var r = parseInt(color.substr(0, 2), 16);
+                        var g = parseInt(color.substr(2, 2), 16);
+                        var b = parseInt(color.substr(4, 2), 16);
+
+                        return 'rgb(' + r + ',' + g + ',' + b + '),';
+                    } else {
+                        var r = color.substr(0, 1);
+                        var g = color.substr(1, 1);
+                        var b = color.substr(2, 1);
+
+                        r += r;
+                        g += g;
+                        b += b;
+
+                        r = parseInt(r, 16);
+                        g = parseInt(g, 16);
+                        b = parseInt(b, 16);
+
+                        return 'rgb(' + r + ',' + g + ',' + b + '),';
+
+                    }
+
+                });
+
+            }
+        });
+
+
+        document.querySelector('div[data-colorConverter] input').addEventListener('focus', function (e) {
+            if (e.target.value.length != 0) {
+                return false;
+            } else {
+                e.target.value = '#';
+            }
+        });
+        document.querySelector('div[data-colorConverter] input').addEventListener('input', function (e) {
+            if (e.target.value.length > 7) {
+                var eTargetValue = event.target.value;
+                e.target.value = eTargetValue.slice(0, 7);
+            }
+        });
+
+        document.querySelector('div[data-colorConverter] input').addEventListener('keyup', function (e) {
+
+            var inputValue = this.value;
+
+            if (inputValue.search(/^#{1}([a-f0-9])+/i) != -1) {
+
+                if (inputValue.length == 4) {
+                    var fullStr = getFullStr(inputValue, 4);
+                    var rgbColorArr = getRGBcolor(fullStr);
+                } else {
+                    var fullStr = getFullStr(inputValue);
+                    var rgbColorArr = getRGBcolor(fullStr);
+                }
+
+            } else {
+                return false;
+            }
+
+            document.querySelector('div[data-colorConverter] p').textContent = 'Цвет rgb(' + rgbColorArr[0] +
+                ',' + rgbColorArr[1] + ',' + rgbColorArr[2] + ')';
+            document.querySelector('div#color').style.background = 'rgb(' + rgbColorArr[0] + ',' + rgbColorArr[
+                1] + ',' + rgbColorArr[2] + ')';
+        });
+
+        function getFullStr(str, length = 7) {
+
+            for (var i = 0; i < length - str.length; i++) {
+                str += '0';
+            }
+            return str;
+        }
+
+        function getRGBcolor(color) {
+            if (color.length <= 4) {
+
+                var r = color.substr(1, 1);
+                var g = color.substr(2, 1);
+                var b = color.substr(3, 1);
+
+                r += r;
+                g += g;
+                b += b;
+
+                r = parseInt(r, 16);
+                g = parseInt(g, 16);
+                b = parseInt(b, 16);
+
+                return [r, g, b];
+
+            } else {
+
+                var r = parseInt(color.substr(1, 2), 16);
+                var g = parseInt(color.substr(3, 2), 16);
+                var b = parseInt(color.substr(5, 2), 16);
+
+                return [r, g, b];
+            }
+        }
+    </script>
+</body>
+
+</html>

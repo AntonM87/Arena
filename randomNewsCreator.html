@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-size: 1rem;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+    }
+    .main-container{
+        background: orange;
+        width: 100%;
+        height: 100%;    
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    div input{
+        margin: 1rem;
+    }
+    .newsContainer{
+        width: 400px;
+        height: auto;
+        padding: 1rem;
+        margin: .5rem;
+        border-radius: 5px;
+        border: 1px solid rgb(107, 107, 107);
+        background: rgb(216, 216, 216);
+    }
+    .newsContainer img{
+        width: 6rem;
+        height: 6rem;
+    }
+    .newsContainer h3{
+        padding-top: 1rem;
+    }
+    .newsContainer p{
+        padding-top: 1rem;
+    }
+    div button{
+        padding: 1rem;
+    }
+    #border{
+        width: 100%;
+        height: 10px;
+        background: blueviolet;
+    }
+    </style>
+</head>
+
+<body>
+
+    <div id="count" style="position:fixed"></div>
+    <div id="size" style="position:fixed;margin-left: 50px;"></div>
+
+    <div class="main-container">
+        <div>
+            <input type="text">
+        </div>
+        <div class="newsContainer" style="display:none;">
+            <img src="" alt="">
+            <h3></h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit<a href="#">...</a></p>
+        </div>
+        <div id="border">
+        </div>
+    </div>
+    <script>
+        var keyWords = [
+            ['images (1).jpeg', 'images (2).jpeg', 'images.jpeg', 'korejskij-dzhindo91.jpg', 'orig.jpeg',
+                'pscreenshot-b1a244.jpg'
+            ],
+            ['Lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipisicing', 'elit']
+            // ['Lorem','ipsum','dolor','sit','amet','consectetur','adipisicing','elit']
+        ];
+
+        var newsContainer = document.querySelector('.newsContainer');
+        newsStackCreate(5);
+
+
+        document.addEventListener('scroll', function (e) {
+            var border = document.querySelector('#border');
+            var coord = border.getBoundingClientRect();
+
+            if (pageYOffset + window.innerHeight >= getCoords(document.querySelector('#border')).top) {
+                createNews();
+            }
+
+        });
+
+        var searchStackElem;
+        document.querySelector('input').addEventListener('focus', function (e) {
+            searchStackElem = document.querySelectorAll('.newsContainer');
+        });
+
+        var match;
+        document.querySelector('input').addEventListener('input', function (e) {
+
+            for (var i = 1; i < searchStackElem.length; i++) {
+                searchStackElem[i].style.display = 'none';
+            }
+            for (var j = 1; j < searchStackElem.length; j++) {
+                var h3 = searchStackElem[j].querySelector('h3').textContent;
+                var p = searchStackElem[j].querySelector('p').textContent;
+
+                if (h3.search(new RegExp(e.target.value, 'gi')) != -1 ||
+                    p.search(new RegExp(e.target.value, 'gi')) != -1) {
+
+                    searchStackElem[j].style.display = 'block';
+
+                    if (e.target.value.length == 0) {
+
+                        h3 = h3.replace(/<span\s.+?>.+?<\/span>/, match);
+                        searchStackElem[j].querySelector('h3').innerHTML = h3;
+
+                        p = p.replace(/<span\s.+?>.+?<\/span>/, match);
+                        searchStackElem[j].querySelector('p').innerHTML = p;
+
+                        continue;
+                    }
+
+                    h3 = h3.replace(new RegExp(e.target.value, 'gi'),
+                        '<span style="background:yellow">$&</span>');
+                    searchStackElem[j].querySelector('h3').innerHTML = h3;
+
+                    p = p.replace(new RegExp(e.target.value, 'gi'), '<span style="background:yellow">$&</span>');
+                    searchStackElem[j].querySelector('p').innerHTML = p;
+                    if (e.target.value.length == 1) {
+                        match = e.target.value;
+                    //     console.log(match);
+                    //     // if (!match) {
+                    //     //     var tag_match = h3.match(/<span\s.+?>.+?<\/span>/gi);
+                    //     //     var sub_match = tag_match[0].match(/>.</i);
+                    //     //     match = sub_match[0];
+                    //     //     match = match[1];
+                    //     // }
+                    }
+                    // if (e.target.value.length == 0) {
+                    //     // alert();
+                    //     h3 = h3.replace(/<span\s.+?>.+?<\/span>/,match);
+                    //     searchStackElem[j].querySelector('h3').innerHTML = h3;
+
+                    //     p = p.replace(/<span\s.+?>.+?<\/span>/,match);
+                    //     searchStackElem[j].querySelector('p').innerHTML = p;
+                    // }
+                }
+            }
+            if (e.target.value.length == 0) {
+                for (var i = 1; i < searchStackElem.length; i++) {
+                    searchStackElem[i].style.display = 'block';
+                }
+                return false;
+            }
+        });
+
+        function createNews() {
+            var NewNewsContainer = newsContainer.cloneNode(true);
+            var property = getRandomElemNewsContainer(keyWords);
+
+            NewNewsContainer.children[0].setAttribute('src', property);
+            NewNewsContainer.children[0].setAttribute('alt', property);
+
+            var resultH3str = '';
+            var headerLength = createRandomHeaderLegth(keyWords) < 4 ? createRandomHeaderLegth(keyWords) : 4;
+
+            for (var j = 0; j < headerLength; j++) {
+                resultH3str += getRandomHeader(keyWords) + ' ';
+            }
+            NewNewsContainer.children[1].textContent = resultH3str;
+            NewNewsContainer.style.display = 'block';
+            var mainContainer = document.querySelector('.main-container');
+            mainContainer.insertBefore(NewNewsContainer, mainContainer.querySelector('#border'));
+        }
+
+        function createRandomHeaderLegth(keyWords) {
+            return Math.floor(Math.random() * keyWords[1].length);
+        }
+
+        function getRandomElemNewsContainer(keyWords) {
+            var src = keyWords[0][Math.floor(Math.random() * keyWords[0].length)];
+            var alt = src;
+            return src;
+        }
+
+        function getRandomHeader(keyWords) {
+            return keyWords[1][Math.floor(Math.random() * keyWords[1].length)];
+        }
+
+        function newsStackCreate(n = 1) {
+            for (var i = 0; i < n; i++) {
+                createNews();
+            }
+        }
+
+        function getCoords(elem) {
+            var box = elem.getBoundingClientRect();
+            return {
+                top: box.top + pageYOffset,
+                bottom: box.bottom + pageYOffset,
+                left: box.left + pageXOffset
+            };
+        }
+    </script>
+</body>
+
+</html>

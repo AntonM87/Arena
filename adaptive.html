@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+        crossorigin="anonymous">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            font-size: 1rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            box-sizing: border-box;
+        }
+
+        .main-container {
+            overflow: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: stretch;
+
+        }
+
+        .main-inner-container {
+            width: 100%;
+            /* border: 1px solid red; */
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: stretch;
+        }
+
+        .left-container {
+            padding: 0.5rem;
+            max-width: 25%;
+            background: #DA70D6;
+            /* overflow-y: scroll; */
+        }
+
+        .left-container p {
+            padding: 0.5rem;
+        }
+
+        .center-container {
+            background: rgb(180, 96, 37);
+            padding: 0.5rem;
+            width: 75%;
+            transition: all ease 500ms;
+        }
+
+        .center-container h2 {
+            font-size: 2rem;
+            margin-left: 25%;
+        }
+
+        .center-container ul {
+            padding: 1rem;
+        }
+
+        .center-container ul li {
+            font-size: 1.5rem;
+            list-style: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            margin: 0.5rem;
+        }
+
+        .rigth-container {
+            transition: all ease 500ms;
+            padding: 0rem;
+            height: 100%;
+            width: 300px;
+            /* border: 1px solid red; */
+            position: absolute;
+            right: 0;
+            top: 0;
+            margin-right: -300px;
+        }
+
+        .rigth-container div {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1;
+        }
+
+        .rigth-container div p {
+            padding: 1rem;
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            /* margin: 1rem; */
+        }
+
+        .rigth-container-show {
+            margin-right: 0;
+        }
+
+        div.chevron-container {
+            width: 100%;
+            height: auto;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        i.fa-chevron-down {
+            display: none;
+        }
+
+        i.fa-times {
+            display: none;
+        }
+
+        @media (max-width: 1000px) {
+            .left-container {
+                transition: all ease 500ms;
+                position: fixed;
+                top: -95%;
+                right: 0;
+                max-width: 100% !important;
+                height: 100%;
+                border-radius: 0 0 1rem 1rem;
+            }
+
+            .center-container {
+                width: 100%;
+            }
+
+            .center-container h2 {
+                margin-top: 3rem;
+                margin-left: 0;
+                text-align: center;
+            }
+
+            i.fa-chevron-down,
+            i.fa-chevron-up {
+                color: #fff;
+                font-size: 2rem;
+                text-align: center;
+                display: block;
+                position: relative;
+                bottom: 0;
+                cursor: pointer;
+            }
+
+            i.fa-chevron-up {
+                display: none;
+            }
+
+            div.rigth-container {
+                position: fixed;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgb(146, 224, 82);
+            }
+
+            div.rigth-container p {
+                margin-top: 2.5rem;
+            }
+
+            i.fa-times {
+                display: block;
+                position: absolute;
+                top: 0;
+                right: 0;
+                padding: 1rem;
+                cursor: pointer;
+                font-size: 1.5rem;
+                z-index: 3!important;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="main-inner-container">
+            <div class="left-container">
+                <p>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus obcaecati ullam reprehenderit
+                    eum.
+                    Fuga
+                    earum tempora autem dolorem officiis. Reprehenderit voluptate aut dolor neque deleniti eaque,
+                    numquam
+                    blanditiis sint maiores.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus obcaecati ullam reprehenderit
+                    eum.
+                    Fuga
+                    earum tempora autem dolorem officiis. Reprehenderit voluptate aut dolor neque deleniti eaque,
+                    numquam
+                    blanditiis sint maiores.
+                </p>
+                <div class="chevron-container">
+                    <i id="down" class="fas fa-chevron-down"></i>
+                    <i id="up" class="fas fa-chevron-up"></i>
+                </div>
+            </div>
+            <div class="center-container">
+                <h2>Lorem ipsum dolor</h2>
+                <ul>
+                    <li data-color="#00AAFF">Плазмиды...</li>
+                    <li data-color="#FFA07A">Машинное зрение ...</li>
+                    <li data-color="#FFFF00">Субкультура...</li>
+                    <li data-color="#ADFF2F">Обливание...</li>
+                    <li data-color="#00FFFF">Этнография...</li>
+                    <li data-color="#5F9EA0">Антропология...</li>
+                </ul>
+            </div>
+        </div>
+        <div class="rigth-container">
+            <div>
+                <p>Хромосомная ДНК (1) и плазмиды (2) в бактериальной клетке
+                    Плазмиды (англ. Plasmids) — небольшие молекулы ДНК, физически отдельные от геномных хромосом и
+                    способные реплицироваться автономно. Как правило, плазмиды встречаются у бактерий и представляют
+                    собой двухцепочечные кольцевые молекулы, но изредка встречаются также у архей и эукариот. Несмотря
+                    на способность к размножению, плазмиды, как и вирусы, не рассматриваются в качестве живых
+                    организмов</p>
+            </div>
+            <div>
+                <p>Машинное зрение — это применение компьютерного зрения для промышленности и производства. В то время
+                    как компьютерное зрение — это общий набор методов, позволяющих компьютерам видеть, областью
+                    интереса машинного зрения, как инженерного направления, являются цифровые устройства ввода-вывода и
+                    компьютерные сети, предназначенные для контроля производственного оборудования, таких как
+                    роботы-манипуляторы или аппараты для извлечения бракованной продукции.</p>
+            </div>
+            <div>
+                <p>
+                    Кибер-готы
+                    Субкульту́ра (лат. sub «под» + cultura «культура»), подкульту́ра — понятие (термин) в социологии,
+                    антропологии и культурологии, обозначающее часть культуры общества, отличающейся своим поведением
+                    от преобладающего большинства, а также социальные группы носителей этой культуры.</p>
+            </div>
+            <div>
+                <p>Фешин. Обливание (1914).jpg
+                    Николай Фешин
+                    Обливание. 1914 (?)[1]
+                    Холст, масло. 236 × 329[1] см
+                    Государственный музей изобразительных искусств Республики Татарстан, Казань
+                    (инв. Ж-630)
+                    «Обливание» — картина российского, советского и американского художника Николая Фешина. Создана в
+                    1914 году в Казани[1] (С. М. Червонная датирует картину 1911 годом[2], а Г. П. Тулузакова в
+                    каталоге 2012 года — 1914—1916 годами[3], хотя в своей диссертации 1998 года на соискание учёной
+                    степени кандидата искусствоведения неоднократно называет совершенно другую дату — 1911 год[4]).</p>
+            </div>
+            <div>
+                <p>Этногра́фия (от др.-греч. ἔθνος — народ и γράφω — пишу) — наука, изучающая народы-этносы и другие
+                    этнические образования, их происхождение (этногенез), состав, расселение, культурно-бытовые
+                    особенности, а также их материальную и духовную культуру[1].
+
+                </p>
+            </div>
+            <div>
+                <p>Антрополо́гия (от др.-греч. ἄνθρωπος — человек; λόγος — наука) — совокупность научных дисциплин,
+                    занимающихся изучением человека, его происхождения, развития, существования в природной
+                    (естественной) и культурной (искусственной) средах[1][2]. Антропология исследует физические
+                    различия между людьми, исторически сложившиеся в ходе их развития в различных
+                    естественно-географических средах[3]. В Советском Союзе антропология понималась как наука о
+                    происхождении и эволюции человека и его рас, то есть, как физическая антропология[4]. </p>
+            </div>
+            <i id="close"  class="fas fa-times"></i>
+        </div>
+    </div>
+    <script>
+        (document.addEventListener('DOMContentLoaded', function (e) {
+            var lisObj = document.querySelectorAll('li');
+            var rightMenuElem = document.querySelectorAll('div.rigth-container div');
+            var rightMenuElemPar = document.querySelectorAll('div.rigth-container div > p');
+
+            for (var i = 0; i < lisObj.length; i++) {
+                var colorAttribute = lisObj[i].getAttribute('data-color');
+                lisObj[i].style.background = colorAttribute;
+            }
+
+            this.addEventListener('click', function (e) {
+
+                var rightMenu = document.querySelector('.rigth-container');
+                var centerContainer = document.querySelector('.center-container');
+
+                if (e.target.tagName == 'LI' && innerWidth >= 1000) {
+
+                    rightMenu.classList.add('rigth-container-show');
+
+                    if (!rightMenu.hasAttribute('data-show')) {
+                        rightMenu.setAttribute('data-show', '');
+                        centerContainer.style.width = (centerContainer.offsetWidth - rightMenu.offsetWidth) +
+                            'px';
+                    }
+
+                    for (var i = 0; i < rightMenuElemPar.length; i++) {
+                        rightMenuElemPar[i].style.opacity = 0;
+                    }
+
+                    for (var i = 0; i < lisObj.length; i++) {
+                        if (lisObj[i] == e.target) {
+                            var attr = lisObj[i].getAttribute('data-color');
+                            rightMenu.style.background = attr;
+                            rightMenuElemPar[i].style.opacity = 1;
+                        }
+                    }
+
+                } else {
+                    rightMenu.classList.remove('rigth-container-show');
+                    rightMenu.removeAttribute('data-show');
+                    centerContainer.style.width = (centerContainer.offsetWidth + rightMenu.offsetWidth) +
+                        'px';
+                }
+
+                if (e.target.tagName == 'LI' && innerWidth < 1000) {
+                    rightMenu.style.top = '0';
+
+                    for (var i = 0; i < rightMenuElemPar.length; i++) {
+                        rightMenuElemPar[i].style.opacity = 0;
+                    }
+
+                    for (var i = 0; i < lisObj.length; i++) {
+                        if (lisObj[i] == e.target) {
+                            var attr = lisObj[i].getAttribute('data-color');
+                            rightMenu.style.background = attr;
+                            rightMenuElemPar[i].style.opacity = 1;
+                        }
+                    }
+
+                }
+
+                if (e.target.id === 'close') {
+                    rightMenu.style.top = '100%';
+                }
+
+                var leftContainer = document.querySelector('.left-container');
+                var down = document.getElementById('down');
+                var up = document.getElementById('up');
+
+                if (e.target.id == 'down') {
+
+                    leftContainer.style.top = 0;
+                    down.style.display = 'none';
+                    up.style.display = 'block';
+                }
+                if (e.target.id == 'up') {
+                    leftContainer.style.top = '-95%';
+                    down.style.display = 'block';
+                    up.style.display = 'none';
+                }
+
+            });
+
+        }))();
+    </script>
+</body>
+
+</html>

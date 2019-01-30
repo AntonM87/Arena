@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+
+        table {
+            margin: 1rem;
+            border-collapse: collapse;
+        }
+
+        table * {
+            border: 1px solid black;
+            padding: 0.5rem;
+            /* display: none; */
+        }
+
+        th,td{
+            display: none;
+        }
+
+        table th {
+            margin: 20px;
+        }
+        div {
+            margin: 0.5rem;
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        label{
+            user-select: none;
+        }
+        label,input{
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <span>
+            <input checked type="checkbox" id="one">
+            <label for="one">Первый столбец</label>
+        </span>
+        <span>
+            <input type="checkbox" id="two">
+            <label for="two">Второй столбец</label>
+        </span>
+        <span>
+            <input type="checkbox" id="three">
+            <label for="three">Третий столбец</label>
+        </span>
+        <span>
+            <input checked type="checkbox" id="four">
+            <label for="four">Четвертый столбец</label>
+        </span>
+    </div>
+    <table>
+
+        <th>Первый столбец</th>
+        <th>Второй столбец</th>
+        <th>Третий столбец</th>
+        <th>Четвертый столбец</th>
+
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+        </tr>
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function (e) {
+
+            var checkboxElem = document.querySelectorAll('input[type="checkbox"]');
+            var rows = document.querySelectorAll('table tr');
+
+            for (var i = 0; i < checkboxElem.length; i++) {
+
+                if (checkboxElem[i].hasAttribute('checked')) {
+
+                    checkboxElem[i].setAttribute('data-check', '');
+
+                    for (var k = 0; k < rows.length; k++) {
+                        for (var l = 0; l < rows[k].children.length; l++) {
+                            if (i == l) {
+                                rows[k].children[l].style.display = 'table-cell';
+                            }
+                        }
+
+                    }
+                }
+            }
+
+
+            document.addEventListener('change', function (e) {
+
+                for (var i = 0; i < checkboxElem.length; i++) {
+
+                    if (checkboxElem[i] == e.target) {
+
+                        if (checkboxElem[i].hasAttribute('data-check')) {
+                            for (var j = 0; j < rows.length; j++) {
+                                for (var k = 0; k < rows[j].children.length; k++) {
+                                    if (i == k) {
+                                        rows[j].children[k].style.display = 'none';
+                                    }
+                                    checkboxElem[i].removeAttribute('data-check');
+                                }
+                            }
+                        } else {
+                            for (var j = 0; j < rows.length; j++) {
+                                for (var k = 0; k < rows[j].children.length; k++) {
+                                    if (i == k) {
+                                        rows[j].children[k].style.display = 'table-cell';
+                                    }
+                                    checkboxElem[i].setAttribute('data-check', '');
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
